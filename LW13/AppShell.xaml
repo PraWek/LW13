@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CellularCompany.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:CellularCompany.Views"
+    Shell.FlyoutBehavior="Flyout">
+
+    <FlyoutItem Title="Clients" Icon="person.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ClientsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Plans" Icon="list.png">
+        <ShellContent ContentTemplate="{DataTemplate views:PlansPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Contracts" Icon="document.png">
+        <ShellContent ContentTemplate="{DataTemplate views:ContractsPage}" />
+    </FlyoutItem>
+
+</Shell>

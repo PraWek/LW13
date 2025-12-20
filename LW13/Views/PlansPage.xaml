@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CellularCompany.ViewModels"
+             xmlns:model="clr-namespace:CellularCompany.Models"
+             x:Class="CellularCompany.Views.PlansPage"
+             x:DataType="vm:PlansViewModel"
+             Title="Plans">
+
+    <Grid RowDefinitions="Auto,*" Padding="16">
+        <Button Text="Add Plan"
+                Command="{Binding AddPlanCommand}"
+                HorizontalOptions="End"
+                Margin="0,0,0,16"/>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsLoading}"
+                     Command="{Binding LoadPlansCommand}">
+            <CollectionView ItemsSource="{Binding Plans}">
+                <CollectionView.EmptyView>
+                    <Label Text="No plans found"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource Gray600}"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Plan">
+                        <Frame Margin="0,0,0,12" Padding="16">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PlansViewModel}}, Path=EditPlanCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="16"
+                                           FontFamily="OpenSansSemibold"/>
+                                    <Label Text="{Binding Description}"
+                                           TextColor="{StaticResource Gray600}"/>
+                                    <Label Text="{Binding Price, StringFormat='Price: ${0:F2}'}"
+                                           TextColor="{StaticResource Primary}"
+                                           FontFamily="OpenSansSemibold"/>
+                                    <Grid ColumnDefinitions="Auto,Auto,Auto" ColumnSpacing="12">
+                                        <Label Text="{Binding Minutes, StringFormat='{0} min'}"
+                                               TextColor="{StaticResource Secondary}"
+                                               FontSize="12"/>
+                                        <Label Grid.Column="1"
+                                               Text="{Binding InternetGb, StringFormat='{0} GB'}"
+                                               TextColor="{StaticResource Secondary}"
+                                               FontSize="12"/>
+                                        <Label Grid.Column="2"
+                                               Text="{Binding Sms, StringFormat='{0} SMS'}"
+                                               TextColor="{StaticResource Secondary}"
+                                               FontSize="12"/>
+                                    </Grid>
+                                    <Label Text="{Binding Status, StringFormat='Status: {0}'}"
+                                           TextColor="{StaticResource Secondary}"
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                                <Button Grid.Column="1"
+                                        Text="Delete"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PlansViewModel}}, Path=DeletePlanCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

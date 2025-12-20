@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CellularCompany.ViewModels"
+             xmlns:model="clr-namespace:CellularCompany.Models"
+             x:Class="CellularCompany.Views.ContractDetailPage"
+             x:DataType="vm:ContractDetailViewModel"
+             Title="{Binding IsNewContract, Converter={StaticResource BoolToContractTitleConverter}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <vm:BoolToContractTitleConverter x:Key="BoolToContractTitleConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            <Frame>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Contract Number"/>
+                    <Entry Text="{Binding ContractNumber}" Placeholder="Enter contract number"/>
+
+                    <Label Text="Client"/>
+                    <Picker ItemsSource="{Binding Clients}"
+                            SelectedItem="{Binding SelectedClient}"
+                            ItemDisplayBinding="{Binding FullName}"/>
+
+                    <Label Text="Plan"/>
+                    <Picker ItemsSource="{Binding Plans}"
+                            SelectedItem="{Binding SelectedPlan}"
+                            ItemDisplayBinding="{Binding Name}"/>
+
+                    <Label Text="Start Date"/>
+                    <DatePicker Date="{Binding StartDate}"/>
+
+                    <Label Text="End Date (Optional)"/>
+                    <DatePicker Date="{Binding EndDate}"/>
+
+                    <Label Text="Status"/>
+                    <Picker SelectedItem="{Binding Status}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>active</x:String>
+                                <x:String>suspended</x:String>
+                                <x:String>terminated</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Text="Save"
+                        Command="{Binding SaveCommand}"
+                        Grid.Column="0"/>
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Secondary}"
+                        Grid.Column="1"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CellularCompany.ViewModels"
+             xmlns:model="clr-namespace:CellularCompany.Models"
+             x:Class="CellularCompany.Views.ClientsPage"
+             x:DataType="vm:ClientsViewModel"
+             Title="Clients">
+
+    <Grid RowDefinitions="Auto,*" Padding="16">
+        <Button Text="Add Client"
+                Command="{Binding AddClientCommand}"
+                HorizontalOptions="End"
+                Margin="0,0,0,16"/>
+
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsLoading}"
+                     Command="{Binding LoadClientsCommand}">
+            <CollectionView ItemsSource="{Binding Clients}">
+                <CollectionView.EmptyView>
+                    <Label Text="No clients found"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource Gray600}"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Client">
+                        <Frame Margin="0,0,0,12" Padding="16">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClientsViewModel}}, Path=EditClientCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding FullName}"
+                                           FontSize="16"
+                                           FontFamily="OpenSansSemibold"/>
+                                    <Label Text="{Binding Phone}"
+                                           TextColor="{StaticResource Gray600}"/>
+                                    <Label Text="{Binding Email}"
+                                           TextColor="{StaticResource Gray600}"/>
+                                    <Label Text="{Binding RegistrationDate, StringFormat='Registered: {0:d}'}"
+                                           TextColor="{StaticResource Secondary}"
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                                <Button Grid.Column="1"
+                                        Text="Delete"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ClientsViewModel}}, Path=DeleteClientCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

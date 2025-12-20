@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CellularCompany.ViewModels"
+             x:Class="CellularCompany.Views.ClientDetailPage"
+             x:DataType="vm:ClientDetailViewModel"
+             Title="{Binding IsNewClient, Converter={StaticResource BoolToTitleConverter}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <vm:BoolToTitleConverter x:Key="BoolToTitleConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            <Frame>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Full Name"/>
+                    <Entry Text="{Binding FullName}" Placeholder="Enter full name"/>
+
+                    <Label Text="Phone"/>
+                    <Entry Text="{Binding Phone}" Placeholder="Enter phone number" Keyboard="Telephone"/>
+
+                    <Label Text="Email"/>
+                    <Entry Text="{Binding Email}" Placeholder="Enter email address" Keyboard="Email"/>
+
+                    <Label Text="Registration Date"/>
+                    <DatePicker Date="{Binding RegistrationDate}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Text="Save"
+                        Command="{Binding SaveCommand}"
+                        Grid.Column="0"/>
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Secondary}"
+                        Grid.Column="1"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

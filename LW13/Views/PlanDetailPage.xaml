@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CellularCompany.ViewModels"
+             x:Class="CellularCompany.Views.PlanDetailPage"
+             x:DataType="vm:PlanDetailViewModel"
+             Title="{Binding IsNewPlan, Converter={StaticResource BoolToPlanTitleConverter}}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <vm:BoolToPlanTitleConverter x:Key="BoolToPlanTitleConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+            <Frame>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Plan Name"/>
+                    <Entry Text="{Binding Name}" Placeholder="Enter plan name"/>
+
+                    <Label Text="Description"/>
+                    <Entry Text="{Binding Description}" Placeholder="Enter description"/>
+
+                    <Label Text="Price"/>
+                    <Entry Text="{Binding Price}" Placeholder="Enter price" Keyboard="Numeric"/>
+
+                    <Label Text="Minutes"/>
+                    <Entry Text="{Binding Minutes}" Placeholder="Enter minutes" Keyboard="Numeric"/>
+
+                    <Label Text="Internet (GB)"/>
+                    <Entry Text="{Binding InternetGb}" Placeholder="Enter internet GB" Keyboard="Numeric"/>
+
+                    <Label Text="SMS"/>
+                    <Entry Text="{Binding Sms}" Placeholder="Enter SMS count" Keyboard="Numeric"/>
+
+                    <Label Text="Status"/>
+                    <Picker SelectedItem="{Binding Status}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>active</x:String>
+                                <x:String>inactive</x:String>
+                                <x:String>archived</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <Button Text="Save"
+                        Command="{Binding SaveCommand}"
+                        Grid.Column="0"/>
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Secondary}"
+                        Grid.Column="1"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
